@@ -1,13 +1,13 @@
 ﻿@model IEnumerable<leave_management.Models.DetailsLeaveTypeVM>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Leave Types";
 }
 
-<h1>Index</h1>
+<h1>@ViewData["Title"]</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    &raquo; <a asp-action="Create">Create a new leave type</a>
 </p>
 <table class="table">
     <thead>
@@ -25,7 +25,7 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Name)
+                @Html.DisplayFor(modelItem => item.Name) - (@Html.DisplayFor(modelItem => item.Id))
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.DateCreated)
