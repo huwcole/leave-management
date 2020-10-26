@@ -4,7 +4,6 @@ using leave_management.Data;
 using leave_management.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections;
 using System.Collections.Generic;
 
 namespace leave_management.Controllers
