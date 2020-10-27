@@ -1,4 +1,4 @@
-﻿@model IEnumerable<leave_management.Models.DetailsLeaveTypeVM>
+﻿@model IEnumerable<leave_management.Models.LeaveTypeVM>
 
 @{
     ViewData["Title"] = "Leave Types";
@@ -25,7 +25,7 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Name) - (@Html.DisplayFor(modelItem => item.Id))
+                @Html.DisplayFor(modelItem => item.Name)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.DateCreated)
