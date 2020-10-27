@@ -15,19 +15,18 @@ namespace leave_management
 {
     public class Startup
     {
+        public IConfiguration Configuration { get; }
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; }
-
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")));
+            //sql server connection
+            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration["DBConnectionStrings:DefaultConnection"]));
 
             //add automapper
             services.AddAutoMapper(typeof(Maps));
@@ -37,8 +36,7 @@ namespace leave_management
             services.AddScoped<ILeaveHistoryRepository, LeaveHistoryRepository>();
             services.AddScoped<ILeaveAllocationRepository, LeaveAllocationRepository>();
 
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.AddControllersWithViews();
 
