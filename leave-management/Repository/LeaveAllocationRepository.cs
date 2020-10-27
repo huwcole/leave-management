@@ -36,6 +36,11 @@ namespace leave_management.Repository
             return _db.LeaveAllocations.Find(id);
         }
 
+        public bool itExists(int id)
+        {
+            return _db.LeaveAllocations.Any(q => q.Id == id);
+        }
+
         public bool Save()
         {
             return _db.SaveChanges() > 0;
