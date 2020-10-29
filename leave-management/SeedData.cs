@@ -50,6 +50,6 @@ namespace leave_management
                     userManager.AddToRoleAsync(user, "Administrator").Wait();
                 }
             }
-        }       
+        }
     }
 }

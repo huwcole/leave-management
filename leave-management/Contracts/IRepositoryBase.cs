@@ -8,7 +8,7 @@ namespace leave_management.Contracts
 
         T FindById(int id);
 
-        bool itExists(int id);
+        bool ItExists(int id);
 
         bool Create(T entity);
 

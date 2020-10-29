@@ -25,20 +25,19 @@ namespace leave_management.Controllers
         // GET: LeaveTypesController
         public ActionResult Index()
         {
-            var mappedModel = _mapper.Map<ICollection<LeaveType>, ICollection<LeaveTypeVM>>(_repo.FindAll());
+            var model = _mapper.Map<ICollection<LeaveType>, ICollection<LeaveTypeVM>>(_repo.FindAll());
 
-            return View(mappedModel);
+            return View(model);
         }
 
         public ActionResult Details(int id)
         {
-            if (!_repo.itExists(id))
+            if (!_repo.ItExists(id))
             {
                 return Redirect("/Home/Error");
             }
 
-            var leaveType = _repo.FindById(id);
-            var model = _mapper.Map<LeaveTypeVM>(leaveType);
+            var model = _mapper.Map<LeaveTypeVM>(_repo.FindById(id));
 
             return View(model);
         }
@@ -84,13 +83,12 @@ namespace leave_management.Controllers
         // GET: LeaveTypesController/Edit/5
         public ActionResult Edit(int id)
         {
-            if (!_repo.itExists(id))
+            if (!_repo.ItExists(id))
             {
                 return Redirect("/Home/Error");
             }
 
-            var leaveType = _repo.FindById(id);
-            var model = _mapper.Map<LeaveTypeVM>(leaveType);
+            var model = _mapper.Map<LeaveTypeVM>(_repo.FindById(id));
 
             return View(model);
         }
@@ -128,13 +126,12 @@ namespace leave_management.Controllers
         // GET: LeaveTypesController/Delete/5
         public ActionResult Delete(int id)
         {
-            if (!_repo.itExists(id))
+            if (!_repo.ItExists(id))
             {
                 return Redirect("/Home/Error");
             }
 
-            var leaveType = _repo.FindById(id);
-            var model = _mapper.Map<LeaveTypeVM>(leaveType);
+            var model = _mapper.Map<LeaveTypeVM>(_repo.FindById(id));
 
             return View(model);
         }
@@ -146,8 +143,7 @@ namespace leave_management.Controllers
         {
             try
             {
-                var leaveType = _repo.FindById(id);
-                var isSuccess = _repo.Delete(leaveType);
+                var isSuccess = _repo.Delete(_repo.FindById(id));
 
                 if (!isSuccess)
                 {
