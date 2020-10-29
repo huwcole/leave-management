@@ -91,6 +91,7 @@ namespace leave_management.Areas.Identity.Pages.Account
                 {
                     _logger.LogInformation("User created a new account with password.");
 
+                    //only allow Employee role on registration
                     _userManager.AddToRoleAsync(user, "Employee").Wait();
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
