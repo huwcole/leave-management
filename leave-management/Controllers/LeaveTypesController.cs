@@ -13,31 +13,31 @@ namespace leave_management.Controllers
     public class LeaveTypesController : Controller
     {
         //dependency injections
-        private readonly ILeaveTypeRepository _repo;
+        private readonly ILeaveTypeRepository _leaveTypeRepo;
         private readonly IMapper _mapper;
 
-        public LeaveTypesController(ILeaveTypeRepository repo, IMapper mapper)
+        public LeaveTypesController(ILeaveTypeRepository leaveTypeRepo, IMapper mapper)
         {
-            _repo = repo;
+            _leaveTypeRepo = leaveTypeRepo;
             _mapper = mapper;
         }
 
         // GET: LeaveTypesController
         public ActionResult Index()
         {
-            var model = _mapper.Map<ICollection<LeaveType>, ICollection<LeaveTypeVM>>(_repo.FindAll());
+            var model = _mapper.Map<ICollection<LeaveType>, ICollection<LeaveTypeVM>>(_leaveTypeRepo.FindAll());
 
             return View(model);
         }
 
         public ActionResult Details(int id)
         {
-            if (!_repo.ItExists(id))
+            if (!_leaveTypeRepo.ItExists(id))
             {
                 return Redirect("/Home/Error");
             }
 
-            var model = _mapper.Map<LeaveTypeVM>(_repo.FindById(id));
+            var model = _mapper.Map<LeaveTypeVM>(_leaveTypeRepo.FindById(id));
 
             return View(model);
         }
@@ -63,7 +63,7 @@ namespace leave_management.Controllers
                 var leaveType = _mapper.Map<LeaveType>(model);
                 leaveType.DateCreated = DateTime.Now;
 
-                var isSuccess = _repo.Create(leaveType);
+                var isSuccess = _leaveTypeRepo.Create(leaveType);
 
                 if (!isSuccess)
                 {
@@ -83,12 +83,12 @@ namespace leave_management.Controllers
         // GET: LeaveTypesController/Edit/5
         public ActionResult Edit(int id)
         {
-            if (!_repo.ItExists(id))
+            if (!_leaveTypeRepo.ItExists(id))
             {
                 return Redirect("/Home/Error");
             }
 
-            var model = _mapper.Map<LeaveTypeVM>(_repo.FindById(id));
+            var model = _mapper.Map<LeaveTypeVM>(_leaveTypeRepo.FindById(id));
 
             return View(model);
         }
@@ -106,7 +106,7 @@ namespace leave_management.Controllers
                 }
 
                 var leaveType = _mapper.Map<LeaveType>(model);
-                var isSuccess = _repo.Update(leaveType);
+                var isSuccess = _leaveTypeRepo.Update(leaveType);
 
                 if (!isSuccess)
                 {
@@ -126,12 +126,12 @@ namespace leave_management.Controllers
         // GET: LeaveTypesController/Delete/5
         public ActionResult Delete(int id)
         {
-            if (!_repo.ItExists(id))
+            if (!_leaveTypeRepo.ItExists(id))
             {
                 return Redirect("/Home/Error");
             }
 
-            var model = _mapper.Map<LeaveTypeVM>(_repo.FindById(id));
+            var model = _mapper.Map<LeaveTypeVM>(_leaveTypeRepo.FindById(id));
 
             return View(model);
         }
@@ -143,7 +143,7 @@ namespace leave_management.Controllers
         {
             try
             {
-                var isSuccess = _repo.Delete(_repo.FindById(id));
+                var isSuccess = _leaveTypeRepo.Delete(_leaveTypeRepo.FindById(id));
 
                 if (!isSuccess)
                 {

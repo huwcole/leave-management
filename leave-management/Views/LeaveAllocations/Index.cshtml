@@ -1,0 +1,39 @@
+﻿@model leave_management.Models.CreateLeaveAllocationVM
+
+@{
+    ViewData["Title"] = "Leave allocations";
+}
+
+<h1>Leave allocations</h1>
+
+<table id="tblData" class="table">
+    <thead>
+        <tr>
+           
+            <th>
+                Leave types
+            </th>
+            <th>
+               Default days
+            </th>
+           
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.LeaveTypes) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DefaultDays)
+            </td>
+            <td>
+
+                <a asp-action="SetLeave" class="btn btn-warning" asp-route-id="@item.Id" title="Allocate to employees"><i class="fa fa-user" aria-hidden="true"></i> Allocate to employees</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

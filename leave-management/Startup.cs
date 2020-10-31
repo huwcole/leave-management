@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System;
 
 namespace leave_management
 {
@@ -44,6 +45,10 @@ namespace leave_management
             services.AddControllersWithViews();
 
             services.AddRazorPages();
+
+            services.AddDistributedMemoryCache();
+
+            services.AddSession(options => { options.IdleTimeout = TimeSpan.FromMinutes(1); options.Cookie.HttpOnly = true; options.Cookie.IsEssential = true; });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -77,6 +82,8 @@ namespace leave_management
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
+
+            app.UseSession();
         }
     }
 }
