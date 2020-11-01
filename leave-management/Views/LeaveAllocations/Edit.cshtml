@@ -4,7 +4,7 @@
     ViewData["Title"] = "Edit";
 }
 
-<h1>Editing @Model.LeaveType.Name allocation for @Model.Employee.Firstname @Model.Employee.Lastname</h1>
+<h1>Edit @Model.LeaveType.Name.ToLower() allocation for @Model.Employee.Firstname @Model.Employee.Lastname</h1>
 
 <hr />
 <div class="row">
@@ -19,7 +19,7 @@
                 <span asp-validation-for="NumberOfDays" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" /> <a asp-action="Details" asp-route-id="@Model.EmployeeId" class="btn btn-primary">Back to List</a>
+                <input type="submit" value="Save" class="btn btn-success" /> <a asp-action="Details" asp-route-id="@Model.EmployeeId" class="btn btn-primary">Back to List</a>
             </div>
         </form>
     </div>
