@@ -1,0 +1,44 @@
+﻿@model IEnumerable<leave_management.Models.EmployeeVM>
+
+@{
+    ViewData["Title"] = "List Employees";
+}
+
+<h1>List employees</h1>
+
+<table id="tblData" class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Firstname)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Lastname)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Firstname)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Lastname)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+               
+                <a asp-action="Details" class="btn btn-outline-success" asp-route-id="@item.Id" title="Details"><i class="fa fa-search" aria-hidden="true"></i> Details</a>
+
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

@@ -18,9 +18,9 @@ namespace leave_management.Controllers
         private readonly ILeaveTypeRepository _leaveTypeRepo;
         private readonly ILeaveAllocationRepository _leaveAllocationRepo;
         private readonly IMapper _mapper;
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<Employee> _userManager;
 
-        public LeaveAllocationsController(ILeaveTypeRepository leaveTypeRepo, ILeaveAllocationRepository leaveAllocationRepo, IMapper mapper, UserManager<IdentityUser> userManager)
+        public LeaveAllocationsController(ILeaveTypeRepository leaveTypeRepo, ILeaveAllocationRepository leaveAllocationRepo, IMapper mapper, UserManager<Employee> userManager)
         {
             _leaveTypeRepo = leaveTypeRepo;
             _leaveAllocationRepo = leaveAllocationRepo;
@@ -65,10 +65,25 @@ namespace leave_management.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        // GET: LeaveAllocationsController1/Details/5
-        public ActionResult Details(int id)
+        public ActionResult ListEmployees()
         {
-            return View();
+            var employees = _userManager.GetUsersInRoleAsync("Employee").Result;
+            var model = _mapper.Map<ICollection<EmployeeVM>>(employees);
+            return View(model);
+        }
+
+        // GET: LeaveAllocationsController1/Details/5
+        public ActionResult Details(string id)
+        {
+            var employee = _mapper.Map<EmployeeVM>(_userManager.FindByIdAsync(id).Result);
+            var allocations = _mapper.Map<ICollection<LeaveAllocationVM>>(_leaveAllocationRepo.GetLeaveAllocationsByEmployee(id));
+
+            var model = new ViewAllocationsVM
+            {
+                Employee = employee,
+                LeaveAllocations = allocations
+            };
+            return View(model);
         }
 
         // GET: LeaveAllocationsController1/Create

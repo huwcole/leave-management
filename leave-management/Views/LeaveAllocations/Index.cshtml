@@ -4,7 +4,7 @@
     ViewData["Title"] = "Leave allocations";
 }
 
-<h1>Leave allocations</h1>
+<h1>Allocate leave to employees</h1>
 
 <table id="tblData" class="table">
     <thead>
@@ -27,11 +27,17 @@
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.DefaultDays)
+                @if (item.DefaultDays > 1)
+                {
+                    @Html.DisplayFor(modelItem => item.DefaultDays); <span>Days</span>
+                }
+                else
+                {
+                    @Html.DisplayFor(modelItem => item.DefaultDays); <span>Day</span>
+                }
             </td>
             <td>
-
-                <a asp-action="SetLeave" class="btn btn-warning" asp-route-id="@item.Id" title="Allocate to employees"><i class="fa fa-user" aria-hidden="true"></i> Allocate to employees</a>
+                <a asp-action="SetLeave" class="btn btn-outline-success" asp-route-id="@item.Id" title="Allocate to employees"><i class="fa fa-user" aria-hidden="true"></i> Allocate</a>
             </td>
         </tr>
 }
