@@ -4,7 +4,7 @@
     ViewData["Title"] = "Employee details";
 }
 
-<h1>@ViewData["Title"]</h1>
+<h1>Details for @Model.Employee.Firstname @Model.Employee.Lastname</h1>
 
 <hr />
 
@@ -77,7 +77,7 @@
             {
                 <li class="list-group-item">
                     <div class="float-left">@item.LeaveType.Name <span class="badge badge-secondary">@item.NumberOfDays</span></div>
-                    <div class="float-right"><a class="btn btn-outline-warning"> <i class="fa fa-pencil"></i> Edit</a></div>
+                    <div class="float-right"><a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-warning"> <i class="fa fa-pencil"></i> Edit</a></div>
                     <div class="clearfix"></div>
                 </li>
             }

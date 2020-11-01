@@ -31,10 +31,9 @@ namespace leave_management.Controllers
         // GET: LeaveAllocationsController1
         public ActionResult Index()
         {
-            var mappedleaveTypes = _mapper.Map<ICollection<LeaveType>, ICollection<LeaveTypeVM>>(_leaveTypeRepo.FindAll());
             var model = new CreateLeaveAllocationVM
             {
-                LeaveTypes = mappedleaveTypes,
+                LeaveTypes = _mapper.Map<ICollection<LeaveType>, ICollection<LeaveTypeVM>>(_leaveTypeRepo.FindAll()),
                 NumberUpdated = 0
             };
 
@@ -67,21 +66,17 @@ namespace leave_management.Controllers
 
         public ActionResult ListEmployees()
         {
-            var employees = _userManager.GetUsersInRoleAsync("Employee").Result;
-            var model = _mapper.Map<ICollection<EmployeeVM>>(employees);
+            var model = _mapper.Map<ICollection<EmployeeVM>>(_userManager.GetUsersInRoleAsync("Employee").Result);
             return View(model);
         }
 
         // GET: LeaveAllocationsController1/Details/5
         public ActionResult Details(string id)
         {
-            var employee = _mapper.Map<EmployeeVM>(_userManager.FindByIdAsync(id).Result);
-            var allocations = _mapper.Map<ICollection<LeaveAllocationVM>>(_leaveAllocationRepo.GetLeaveAllocationsByEmployee(id));
-
             var model = new ViewAllocationsVM
             {
-                Employee = employee,
-                LeaveAllocations = allocations
+                Employee = _mapper.Map<EmployeeVM>(_userManager.FindByIdAsync(id).Result),
+                LeaveAllocations = _mapper.Map<ICollection<LeaveAllocationVM>>(_leaveAllocationRepo.GetLeaveAllocationsByEmployee(id))
             };
             return View(model);
         }
@@ -110,21 +105,39 @@ namespace leave_management.Controllers
         // GET: LeaveAllocationsController1/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            var model = _mapper.Map<EditLeaveAllocationVM>(_leaveAllocationRepo.FindById(id));
+            return View(model);
         }
 
         // POST: LeaveAllocationsController1/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(EditLeaveAllocationVM model)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                if (!ModelState.IsValid)
+                {
+                    return View(model);
+                }
+
+                //var allocation = _mapper.Map<LeaveAllocation>(model); does not work???
+                var allocation = _leaveAllocationRepo.FindById(model.Id);
+                allocation.NumberOfDays = model.NumberOfDays;
+                var isSuccess = _leaveAllocationRepo.Update(allocation);
+
+                if (!isSuccess)
+                {
+                    ModelState.AddModelError("", "Something has gone wrong!");
+                    return View(model);
+                }
+
+                return RedirectToAction(nameof(Details), new { id = model.EmployeeId});
             }
-            catch
+            catch(Exception ex)
             {
-                return View();
+                ModelState.AddModelError("", "Something has gone wrong! " + ex.Message);
+                return View(model);
             }
         }
 

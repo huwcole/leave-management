@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -32,6 +31,21 @@ namespace leave_management.Models
         public int NumberUpdated { get; set; }
 
         public ICollection<LeaveTypeVM> LeaveTypes { get; set; }
+    }
+
+    public class EditLeaveAllocationVM
+    {
+        public int Id { get; set; }
+
+        public EmployeeVM Employee { get; set; }
+
+        public string EmployeeId { get; set; }
+
+        [Display(Name = "Number of days")]
+        public int NumberOfDays { get; set; }
+
+        [Display(Name = "Leave type")]
+        public LeaveTypeVM LeaveType { get; set; }
     }
 
     public class ViewAllocationsVM
